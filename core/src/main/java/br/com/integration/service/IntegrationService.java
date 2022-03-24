@@ -1,6 +1,7 @@
 package br.com.integration.service;
 
 import br.com.integration.model.dto.PedidoDTO;
+import br.com.integration.model.dto.PedidoDTOMapper;
 import br.com.integration.util.Utils;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
@@ -24,7 +25,7 @@ public class IntegrationService {
             var lines = Utils.readLinesFromTextFile(file);
 
             lines.stream().forEach(l -> {
-                var pedidoDTO = lineToPedidoDTO(l);
+                var pedidoDTO = PedidoDTOMapper.lineToPedidoDTO(l);
                 pedidosDTO.add(pedidoDTO);
             });
 
@@ -32,13 +33,15 @@ public class IntegrationService {
 
             output = createUsersWithOrdersJsonElements(pedidosDTO, users);
 
+                    var test = 0;
+
         } catch (IOException e) {
             e.printStackTrace();
         }
         return output;
     }
 
-     public static JsonArray createUsersWithOrdersJsonElements(ArrayList<PedidoDTO> pedidosDTO, Map<Integer, Set<String>> users) {
+    public static JsonArray createUsersWithOrdersJsonElements(ArrayList<PedidoDTO> pedidosDTO, Map<Integer, Set<String>> users) {
         var output = new JsonArray();
         users.entrySet().forEach(u -> {
             var user = new JsonObject();
@@ -72,7 +75,7 @@ public class IntegrationService {
                 order.addProperty("date", Utils.stringToLocalDate(op.getKey()).toString());
             });
 
-           var pedidosDTO =  getPedidosByUserAndOrder(pedidos, idUsuario, idPedido);
+            var pedidosDTO = getPedidosByUserAndOrder(pedidos, idUsuario, idPedido);
             order.add("products", createProductsJsonElements(pedidosDTO));
             orders.add(order);
         });
@@ -107,14 +110,4 @@ public class IntegrationService {
                 .sorted(Comparator.comparing(PedidoDTO::getIdProduto)).collect(Collectors.toList());
     }
 
-    public static PedidoDTO lineToPedidoDTO(String line) {
-        PedidoDTO dto = new PedidoDTO();
-        dto.setIdUsuario(Integer.parseInt(line.substring(0, 10)));
-        dto.setNome(line.substring(10, 55).trim());
-        dto.setIdPedido(Integer.parseInt(line.substring(55, 65)));
-        dto.setIdProduto(Integer.parseInt(line.substring(65, 75)));
-        dto.setValorProduto(Double.parseDouble(line.substring(75, 87).trim()));
-        dto.setDataCompra(line.substring(87));
-        return dto;
-    }
 }

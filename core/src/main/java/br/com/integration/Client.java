@@ -1,6 +1,7 @@
 package br.com.integration;
 
 import br.com.integration.service.IntegrationService;
+import br.com.integration.util.Utils;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -15,11 +16,12 @@ public class Client {
 
             Properties prop = new Properties();
             prop.load(input);
-            var pathFiles = prop.getProperty("integration.input.files.path");
+            var inputPath = prop.getProperty("integration.input.path.files");
+            var outputPath = prop.getProperty("integration.output.path.files");
            // System.out.println("Lendo arquivos do diretório : " + pathFiles);
-            IntegrationService integrationService = new IntegrationService();
-            Files.list(Paths.get(pathFiles)).forEach(p -> {
-                integrationService.readFileAndConvertToModel(p.toString());
+            Files.list(Paths.get(inputPath)).forEach(p -> {
+                var output = IntegrationService.readFileAndConvertToJson(p.toString());
+                Utils.writeFile(output.toString(), outputPath.concat("/").concat(p.getFileName().toString()).concat(".json"));
             });
 
         } catch (IOException ex) {

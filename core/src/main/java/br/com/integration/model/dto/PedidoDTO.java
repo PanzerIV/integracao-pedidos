@@ -1,20 +1,18 @@
 package br.com.integration.model.dto;
 
-import java.util.Objects;
-
 public class PedidoDTO {
-    private String idUsuario;
+    private int idUsuario;
     private String nome;
-    private String idPedido;
-    private String idProduto;
-    private String valorProduto;
+    private int idPedido;
+    private int idProduto;
+    private double valorProduto;
     private String dataCompra;
 
-    public String getIdUsuario() {
+    public int getIdUsuario() {
         return idUsuario;
     }
 
-    public void setIdUsuario(String idUsuario) {
+    public void setIdUsuario(int idUsuario) {
         this.idUsuario = idUsuario;
     }
 
@@ -26,27 +24,27 @@ public class PedidoDTO {
         this.nome = nome;
     }
 
-    public String getIdPedido() {
+    public int getIdPedido() {
         return idPedido;
     }
 
-    public void setIdPedido(String idPedido) {
+    public void setIdPedido(int idPedido) {
         this.idPedido = idPedido;
     }
 
-    public String getIdProduto() {
+    public int getIdProduto() {
         return idProduto;
     }
 
-    public void setIdProduto(String idProduto) {
+    public void setIdProduto(int idProduto) {
         this.idProduto = idProduto;
     }
 
-    public String getValorProduto() {
+    public double getValorProduto() {
         return valorProduto;
     }
 
-    public void setValorProduto(String valorProduto) {
+    public void setValorProduto(double valorProduto) {
         this.valorProduto = valorProduto;
     }
 

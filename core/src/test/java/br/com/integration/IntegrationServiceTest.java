@@ -1,6 +1,7 @@
 package br.com.integration;
 
 import br.com.integration.model.dto.PedidoDTO;
+import br.com.integration.model.dto.PedidoDTOMapper;
 import br.com.integration.service.IntegrationService;
 import br.com.integration.util.Utils;
 import org.junit.jupiter.api.Assertions;
@@ -14,19 +15,6 @@ import java.util.HashMap;
 import java.util.Set;
 
 public class IntegrationServiceTest {
-
-    @Test
-    public void shouldConvertLineToPedidoDTO() {
-        var line = "0000000070                              Palmer Prosacco00000007530000000003     1836.7420210308";
-        var dto = IntegrationService.lineToPedidoDTO(line);
-        Assertions.assertEquals(dto.getIdUsuario(), 70);
-        Assertions.assertEquals(dto.getNome(), "Palmer Prosacco");
-        Assertions.assertEquals(dto.getIdPedido(), 753);
-        Assertions.assertEquals(dto.getIdProduto(), 3);
-        Assertions.assertEquals(dto.getValorProduto(), 1836.74);
-        Assertions.assertEquals(dto.getDataCompra(), "20210308");
-
-    }
 
     @Test
     public void shouldGetPedidosByUserAndOrder() throws IOException {
@@ -104,7 +92,7 @@ public class IntegrationServiceTest {
         var pedidosDTO = new ArrayList<PedidoDTO>();
 
         lines.stream().forEach(l -> {
-            var pedidoDTO = IntegrationService.lineToPedidoDTO(l);
+            var pedidoDTO = PedidoDTOMapper.lineToPedidoDTO(l);
             pedidosDTO.add(pedidoDTO);
         });
 

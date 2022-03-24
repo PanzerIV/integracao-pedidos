@@ -33,8 +33,6 @@ public class IntegrationService {
 
             output = createUsersWithOrdersJsonElements(pedidosDTO, users);
 
-                    var test = 0;
-
         } catch (IOException e) {
             e.printStackTrace();
         }

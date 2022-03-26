@@ -5,6 +5,8 @@ import br.com.integration.model.dto.PedidoDTOMapper;
 import br.com.integration.util.Utils;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
+import lombok.extern.java.Log;
+import lombok.extern.slf4j.Slf4j;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -15,6 +17,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+@Slf4j
 public class IntegrationService {
 
     public static JsonArray readFileAndConvertToJson(String file) {
@@ -23,6 +26,7 @@ public class IntegrationService {
 
         try {
             var lines = Utils.readLinesFromTextFile(file);
+            log.info("Total de linhas : " + lines.size());
 
             lines.stream().forEach(l -> {
                 var pedidoDTO = PedidoDTOMapper.lineToPedidoDTO(l);
@@ -33,10 +37,8 @@ public class IntegrationService {
 
             output = createUsersWithOrdersJsonElements(pedidosDTO, users);
 
-                    var test = 0;
-
-        } catch (IOException e) {
-            e.printStackTrace();
+        } catch (Exception e) {
+            log.error("Erro ao converter a linha :" + e.getMessage());
         }
         return output;
     }

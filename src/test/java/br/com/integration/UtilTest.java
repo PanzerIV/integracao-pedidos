@@ -29,10 +29,22 @@ public class UtilTest {
     }
 
     @Test
-    public void stringToLocalDate(){
+    public void shouldConvertStringToLocalDate(){
         Assertions.assertEquals(Utils.stringToLocalDate("20220308"), LocalDate.parse("2022-03-08"));
         Assertions.assertEquals(Utils.stringToLocalDate("20210612"), LocalDate.parse("2021-06-12"));
         Assertions.assertEquals(Utils.stringToLocalDate("19500513"), LocalDate.parse("1950-05-13"));
+    }
+
+    @Test
+    public void shouldNotWriteFile() {
+        Assertions.assertEquals("Arquivo não gerado !", Utils.writeFile("Texto do arquivo","/arquivo.txt"));
+    }
+
+    @Test
+    public void shouldWriteFile() throws IOException {
+        String filePath = getClass().getResource("/data_test.txt").getPath();
+        var line = Utils.readLinesFromTextFile(filePath).get(0);
+        Assertions.assertEquals("Arquivo gerado com sucesso! target/test-classes/file1.txt", Utils.writeFile(line,"target/test-classes/file1.txt"));
     }
 
 }

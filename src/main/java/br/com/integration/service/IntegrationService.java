@@ -5,6 +5,8 @@ import br.com.integration.model.dto.PedidoDTOMapper;
 import br.com.integration.util.Utils;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
+import lombok.extern.java.Log;
+import lombok.extern.slf4j.Slf4j;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -15,30 +17,21 @@ import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+@Slf4j
 public class IntegrationService {
 
-    public static JsonArray readFileAndConvertToJson(String file) {
-        JsonArray output = new JsonArray();
+    public static JsonArray readFileAndConvertToJson(String file) throws IOException {
         var pedidosDTO = new ArrayList<PedidoDTO>();
 
-        try {
             var lines = Utils.readLinesFromTextFile(file);
+            log.info("Total de linhas : " + lines.size());
 
             lines.stream().forEach(l -> {
                 var pedidoDTO = PedidoDTOMapper.lineToPedidoDTO(l);
                 pedidosDTO.add(pedidoDTO);
             });
 
-            var users = getUsers(pedidosDTO);
-
-            output = createUsersWithOrdersJsonElements(pedidosDTO, users);
-
-                    var test = 0;
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return output;
+        return createUsersWithOrdersJsonElements(pedidosDTO, getUsers(pedidosDTO));
     }
 
     public static JsonArray createUsersWithOrdersJsonElements(ArrayList<PedidoDTO> pedidosDTO, Map<Integer, Set<String>> users) {

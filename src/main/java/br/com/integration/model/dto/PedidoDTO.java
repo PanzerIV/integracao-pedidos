@@ -2,7 +2,6 @@ package br.com.integration.model.dto;
 
 import lombok.Getter;
 import lombok.Setter;
-import lombok.ToString;
 
 @Getter
 @Setter

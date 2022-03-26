@@ -20,11 +20,9 @@ import java.util.stream.Collectors;
 @Slf4j
 public class IntegrationService {
 
-    public static JsonArray readFileAndConvertToJson(String file) {
-        JsonArray output = new JsonArray();
+    public static JsonArray readFileAndConvertToJson(String file) throws IOException {
         var pedidosDTO = new ArrayList<PedidoDTO>();
 
-        try {
             var lines = Utils.readLinesFromTextFile(file);
             log.info("Total de linhas : " + lines.size());
 
@@ -33,14 +31,7 @@ public class IntegrationService {
                 pedidosDTO.add(pedidoDTO);
             });
 
-            var users = getUsers(pedidosDTO);
-
-            output = createUsersWithOrdersJsonElements(pedidosDTO, users);
-
-        } catch (Exception e) {
-            log.error("Erro ao converter a linha :" + e.getMessage());
-        }
-        return output;
+        return createUsersWithOrdersJsonElements(pedidosDTO, getUsers(pedidosDTO));
     }
 
     public static JsonArray createUsersWithOrdersJsonElements(ArrayList<PedidoDTO> pedidosDTO, Map<Integer, Set<String>> users) {

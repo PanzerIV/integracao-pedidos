@@ -33,12 +33,15 @@ public final class Utils {
         return LocalDate.of(year, month, day);
     }
 
-    public static void writeFile(String content, String filePath) {
+    public static String writeFile(String content, String filePath) {
+        var result = "Arquivo ";
         try (FileWriter file = new FileWriter(filePath)) {
             file.write(content);
             file.flush();
+            return result.concat("gerado com sucesso! ").concat(filePath);
         } catch (IOException e) {
             log.error("Erro ao gerar o arquivo :", filePath);
         }
+        return result.concat("não gerado !");
     }
 }

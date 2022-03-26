@@ -2,6 +2,7 @@ package br.com.integration;
 
 import br.com.integration.service.IntegrationService;
 import br.com.integration.util.Utils;
+import com.google.gson.JsonArray;
 import lombok.extern.slf4j.Slf4j;
 
 import java.io.IOException;
@@ -27,7 +28,12 @@ public class Client {
 
             try (Stream<Path> files = Files.list(Paths.get(inputPath))) {
                 files.forEach(p -> {
-                    var output = IntegrationService.readFileAndConvertToJson(p.toString());
+                    JsonArray output = new JsonArray();
+                    try {
+                        output = IntegrationService.readFileAndConvertToJson(p.toString());
+                    } catch (IOException e) {
+                        log.error("Erro ao processar arquivo : " + e.getMessage());
+                    }
                     Utils.writeFile(output.toString(), outputPath.concat("/").concat(p.getFileName().toString()).concat(".json"));
                 });
             }

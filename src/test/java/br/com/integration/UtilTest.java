@@ -37,14 +37,14 @@ public class UtilTest {
 
     @Test
     public void shouldNotWriteFile() {
-        Assertions.assertEquals(Utils.writeFile("Texto do arquivo","/arquivo.txt"), "Arquivo não gerado !");
+        Assertions.assertEquals("Arquivo não gerado !", Utils.writeFile("Texto do arquivo","/arquivo.txt"));
     }
 
     @Test
     public void shouldWriteFile() throws IOException {
         String filePath = getClass().getResource("/data_test.txt").getPath();
         var line = Utils.readLinesFromTextFile(filePath).get(0);
-        Assertions.assertEquals(Utils.writeFile(line,"target/test-classes/file1.txt"), "Arquivo gerado com sucesso! target/test-classes/file1.txt");
+        Assertions.assertEquals("Arquivo gerado com sucesso! target/test-classes/file1.txt", Utils.writeFile(line,"target/test-classes/file1.txt"));
     }
 
 }
